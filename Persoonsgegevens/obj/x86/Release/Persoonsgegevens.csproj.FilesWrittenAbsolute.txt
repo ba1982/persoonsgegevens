@@ -1,0 +1,6 @@
+/home/bert/Mono/Persoonsgegevens/Persoonsgegevens/obj/x86/Release/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/bert/Mono/Persoonsgegevens/Persoonsgegevens/obj/x86/Release/Persoonsgegevens.gtk-gui.gui.stetic
+/home/bert/Mono/Persoonsgegevens/Persoonsgegevens/bin/Release/Persoonsgegevens.exe.mdb
+/home/bert/Mono/Persoonsgegevens/Persoonsgegevens/bin/Release/Persoonsgegevens.exe
+/home/bert/Mono/Persoonsgegevens/Persoonsgegevens/obj/x86/Release/Persoonsgegevens.exe
+/home/bert/Mono/Persoonsgegevens/Persoonsgegevens/obj/x86/Release/Persoonsgegevens.exe.mdb

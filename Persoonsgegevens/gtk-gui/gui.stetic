@@ -6,6 +6,7 @@
   </configuration>
   <import>
     <widget-library name="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <widget-library name="MonoDevelop.Ide, Version=2.6.0.0, Culture=neutral" />
     <widget-library name="../bin/Debug/Persoonsgegevens.exe" internal="true" />
   </import>
   <widget class="Gtk.Window" id="MainWindow" design-size="884 550">
@@ -26,9 +27,22 @@
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-undelete</property>
       </action>
+      <action id="addAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="Sensitive">False</property>
+        <property name="StockId">gtk-add</property>
+        <signal name="Activated" handler="OnAddActionActivated" />
+      </action>
+      <action id="saveAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="Sensitive">False</property>
+        <property name="StockId">gtk-save</property>
+      </action>
     </action-group>
     <property name="MemberName" />
-    <property name="Title" translatable="yes">MainWindow</property>
+    <property name="Title" translatable="yes">Persoonsgegevens</property>
     <property name="WindowPosition">CenterOnParent</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
@@ -42,7 +56,7 @@
             <child>
               <widget class="Gtk.Label" id="lblSearch">
                 <property name="MemberName" />
-                <property name="LabelProp" translatable="yes">Search</property>
+                <property name="LabelProp" translatable="yes">Zoek voornaam</property>
               </widget>
               <packing>
                 <property name="Position">0</property>
@@ -76,9 +90,11 @@
           <widget class="Gtk.Toolbar" id="toolbar1">
             <property name="MemberName" />
             <property name="ShowArrow">False</property>
-            <node name="__gtksharp_182_Stetic_Editor_ActionToolbar" type="Toolbar">
+            <node name="toolbar1" type="Toolbar">
               <node type="Toolitem" action="openAction" />
               <node type="Separator" />
+              <node type="Toolitem" action="addAction" />
+              <node type="Toolitem" action="saveAction" />
             </node>
           </widget>
           <packing>

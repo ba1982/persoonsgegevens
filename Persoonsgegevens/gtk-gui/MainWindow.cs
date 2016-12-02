@@ -11,6 +11,10 @@ public partial class MainWindow
 	
 	private global::Gtk.Action undeleteAction;
 	
+	private global::Gtk.Action addAction;
+	
+	private global::Gtk.Action saveAction;
+	
 	private global::Gtk.VBox vbox1;
 	
 	private global::Gtk.HBox hbox1;
@@ -37,13 +41,20 @@ public partial class MainWindow
 		w1.Add (this.floppyAction, null);
 		this.undeleteAction = new global::Gtk.Action ("undeleteAction", null, null, "gtk-undelete");
 		w1.Add (this.undeleteAction, null);
+		this.addAction = new global::Gtk.Action ("addAction", null, null, "gtk-add");
+		this.addAction.Sensitive = false;
+		w1.Add (this.addAction, null);
+		this.saveAction = new global::Gtk.Action ("saveAction", null, null, "gtk-save");
+		this.saveAction.Sensitive = false;
+		w1.Add (this.saveAction, null);
 		this.UIManager.InsertActionGroup (w1, 0);
 		this.AddAccelGroup (this.UIManager.AccelGroup);
 		this.Name = "MainWindow";
-		this.Title = global::Mono.Unix.Catalog.GetString ("MainWindow");
+		this.Title = global::Mono.Unix.Catalog.GetString ("Persoonsgegevens");
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 		// Container child MainWindow.Gtk.Container+ContainerChild
 		this.vbox1 = new global::Gtk.VBox ();
+		this.vbox1.Name = "vbox1";
 		this.vbox1.Spacing = 6;
 		// Container child vbox1.Gtk.Box+BoxChild
 		this.hbox1 = new global::Gtk.HBox ();
@@ -52,7 +63,7 @@ public partial class MainWindow
 		// Container child hbox1.Gtk.Box+BoxChild
 		this.lblSearch = new global::Gtk.Label ();
 		this.lblSearch.Name = "lblSearch";
-		this.lblSearch.LabelProp = global::Mono.Unix.Catalog.GetString ("Search");
+		this.lblSearch.LabelProp = global::Mono.Unix.Catalog.GetString ("Zoek voornaam");
 		this.hbox1.Add (this.lblSearch);
 		global::Gtk.Box.BoxChild w2 = ((global::Gtk.Box.BoxChild)(this.hbox1 [this.lblSearch]));
 		w2.Position = 0;
@@ -73,7 +84,7 @@ public partial class MainWindow
 		w4.Expand = false;
 		w4.Fill = false;
 		// Container child vbox1.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar1'><toolitem name='openAction' action='openAction'/><separator/></toolbar></ui>");
+		this.UIManager.AddUiFromString ("<ui><toolbar name='toolbar1'><toolitem name='openAction' action='openAction'/><separator/><toolitem name='addAction' action='addAction'/><toolitem name='saveAction' action='saveAction'/></toolbar></ui>");
 		this.toolbar1 = ((global::Gtk.Toolbar)(this.UIManager.GetWidget ("/toolbar1")));
 		this.toolbar1.Name = "toolbar1";
 		this.toolbar1.ShowArrow = false;

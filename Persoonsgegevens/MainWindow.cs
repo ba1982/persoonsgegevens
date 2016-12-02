@@ -12,6 +12,8 @@ public partial class MainWindow: Gtk.Window
 	public MainWindow () : base (Gtk.WindowType.Toplevel)
 	{
 		Build ();
+		lblSearch.Hide ();
+		filterEntry.Hide ();
 	}
 
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
@@ -22,7 +24,7 @@ public partial class MainWindow: Gtk.Window
 
 	protected void OnOpenActionActivated (object sender, EventArgs e)
 	{
-		
+
 		//create FileChooserDialog
 		FileChooserDialog fcd = new FileChooserDialog (
 			"Kies CSV bestand", 
@@ -44,17 +46,15 @@ public partial class MainWindow: Gtk.Window
 
 			//close FileChooserDialog
 			fcd.Destroy ();
-
 		} else {
+			lblSearch.Show ();
+			filterEntry.Show ();
 			//read CSV-file
 			if (responseType == ResponseType.Accept) {				
 				string[] allLines = File.ReadAllLines(fcd.Filename);
-				//List<Person> test = allLines.Select (item => new Person ()).Skip (1).ToList();
 
 				//List with Person objects
 				List<Person> persons = new List<Person> ();
-
-				//LINQ to SQL -- read headers
 
 				//LING to SQL -- read data, skip headers (first line)
 				var query = from line in allLines.Skip (1)
@@ -89,11 +89,11 @@ public partial class MainWindow: Gtk.Window
 			}
 		}
 	}
-	//
-	//TreeView allows you write methods that extract specific data from your Model
+
 	private void TreeView(List<Person> persons)
 	{
-		//
+		filterEntry.Changed += OnFilterEntryChanged;
+
 		//MVC
 		//View
 		TreeViewColumn idColumn = new TreeViewColumn ();
@@ -180,15 +180,16 @@ public partial class MainWindow: Gtk.Window
 		//Controller
 		filter = new TreeModelFilter(personsListStore,null);
 		filter.VisibleFunc = new TreeModelFilterVisibleFunc (FilterTree);
-
-		//treeView.Model = personsListStore;
 		treeView.Model = filter;
+
+		//show all data
+		//treeView.Model = personsListStore;
 	}
 
 	private bool FilterTree (TreeModel model, TreeIter iter)
 	{
-		//testje
-		string id = model.GetValue (iter, 0).ToString ();
+		//GetValue returns the value at column at the path pointed to by iter
+		string id = model.GetValue (iter,1).ToString ();
 
 		if (filterEntry.Text == "")
 		return true;
