@@ -1,0 +1,13 @@
+﻿<Properties StartupItem="Persoonsgegevens/Persoonsgegevens.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Persoonsgegevens/MainWindow.cs">
+    <Files>
+      <File FileName="Persoonsgegevens/MainWindow.cs" Line="203" Column="3" />
+      <File FileName="Persoonsgegevens/Program.cs" Line="17" Column="21" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
