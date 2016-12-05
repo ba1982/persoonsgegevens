@@ -8,6 +8,10 @@ using System.Collections.Generic;
 public partial class MainWindow: Gtk.Window
 {
 	TreeModelFilter filter;
+	ListStore personsListStore;
+	TreePath treepath;
+	TreeIter iter;
+	TreeModel model;
 
 	public MainWindow () : base (Gtk.WindowType.Toplevel)
 	{
@@ -47,8 +51,9 @@ public partial class MainWindow: Gtk.Window
 			//close FileChooserDialog
 			fcd.Destroy ();
 		} else {
-			lblSearch.Show ();
-			filterEntry.Show ();
+			//lblSearch.Show ();
+			//filterEntry.Show ();
+
 			//read CSV-file
 			if (responseType == ResponseType.Accept) {				
 				string[] allLines = File.ReadAllLines(fcd.Filename);
@@ -68,8 +73,7 @@ public partial class MainWindow: Gtk.Window
 								city = data[5],
 								email = data[6],
 								cellphonenumber = data[7]
-							};
-						
+							};						
 												
 				foreach (var p in query) {
 					Person person = new Person (
@@ -84,7 +88,9 @@ public partial class MainWindow: Gtk.Window
 					);
 					persons.Add (person);
 				}
+
 				fcd.Hide ();
+
 				TreeView (persons);
 			}
 		}
@@ -92,7 +98,7 @@ public partial class MainWindow: Gtk.Window
 
 	private void TreeView(List<Person> persons)
 	{
-		filterEntry.Changed += OnFilterEntryChanged;
+		//filterEntry.Changed += OnFilterEntryChanged;
 
 		//MVC
 		//View
@@ -125,6 +131,15 @@ public partial class MainWindow: Gtk.Window
 		CellRendererText emailCell = new CellRendererText ();
 		CellRendererText cellphonenumberCell = new CellRendererText ();
 
+		idCell.Editable = true;
+		firstNameCell.Editable = true;
+		lastNameCell.Editable = true;
+		addressCell.Editable = true;
+		zipcodeCell.Editable = true;
+		cityCell.Editable = true;
+		emailCell.Editable = true;
+		cellphonenumberCell.Editable = true;
+
 		idColumn.PackStart(idCell,true);
 		firstNameColumn.PackStart (firstNameCell, true);
 		lastNameColumn.PackStart (lastNameCell, true);
@@ -153,7 +168,7 @@ public partial class MainWindow: Gtk.Window
 		cellphonenumberColumn.AddAttribute (cellphonenumberCell, "text", 7);
 
 		//Model
-		ListStore personsListStore = new ListStore(
+		personsListStore = new ListStore(
 			typeof(string),
 			typeof(string),
 			typeof(string),
@@ -177,31 +192,127 @@ public partial class MainWindow: Gtk.Window
 			);
 		}
 
+	
 		//Controller
-		filter = new TreeModelFilter(personsListStore,null);
-		filter.VisibleFunc = new TreeModelFilterVisibleFunc (FilterTree);
-		treeView.Model = filter;
+		//filter = new TreeModelFilter(personsListStore,null);
+		//filter.VisibleFunc = new TreeModelFilterVisibleFunc (FilterTree);
+		//treeView.Model = filter;
 
 		//show all data
-		//treeView.Model = personsListStore;
+		treeView.Model = personsListStore;
+
+	
+		//fire event when clicked on 'add button' and pass also TreeViewColumn
+		addAction.Activated += new EventHandler((sender, eventargs)=>OnAddActionActivated(sender,eventargs,idColumn));
+
+		//set events when cells are edited
+		idCell.Edited += IdCell_Edited;
+		firstNameCell.Edited += FirstNameCell_Edited;
+		lastNameCell.Edited += LastNameCell_Edited;
+		addressCell.Edited += AddressCell_Edited;
+		zipcodeCell.Edited += ZipcodeCell_Edited;
+		cityCell.Edited += CityCell_Edited;
+		emailCell.Edited += EmailCell_Edited;
+		cellphonenumberCell.Edited += CellphonenumberCell_Edited;
+
 	}
 
-	private bool FilterTree (TreeModel model, TreeIter iter)
+	void IdCell_Edited (object o, EditedArgs args)
 	{
-		//GetValue returns the value at column at the path pointed to by iter
-		string id = model.GetValue (iter,1).ToString ();
+		if (treeView.Selection.GetSelected(out model, out iter)) {
+			personsListStore.SetValue (iter, 0, args.NewText);
+		}
 
-		if (filterEntry.Text == "")
-		return true;
-
-		if (id.IndexOf (filterEntry.Text) > -1)
-			return true;
-		else
-			return false;	
 	}
 
-	protected void OnFilterEntryChanged (object sender, EventArgs e)
+	void FirstNameCell_Edited (object o, EditedArgs args)
 	{
-		filter.Refilter();
+		if (treeView.Selection.GetSelected(out model, out iter)) {
+			personsListStore.SetValue (iter, 1, args.NewText);
+		}
 	}
+
+	void LastNameCell_Edited (object o, EditedArgs args)
+	{
+		if (treeView.Selection.GetSelected(out model, out iter)) {
+			personsListStore.SetValue (iter, 2, args.NewText);
+		}
+
+	}
+	void AddressCell_Edited (object o, EditedArgs args)
+	{
+		if (treeView.Selection.GetSelected(out model, out iter)) {
+			personsListStore.SetValue (iter, 3, args.NewText);
+		}
+
+	}
+	void ZipcodeCell_Edited (object o, EditedArgs args)
+	{
+		if (treeView.Selection.GetSelected(out model, out iter)) {
+			personsListStore.SetValue (iter, 4, args.NewText);
+		}
+
+	}
+	void CityCell_Edited (object o, EditedArgs args)
+	{
+		if (treeView.Selection.GetSelected(out model, out iter)) {
+			personsListStore.SetValue (iter, 5, args.NewText);
+		}
+
+	}
+
+	void EmailCell_Edited (object o, EditedArgs args)
+	{
+		if (treeView.Selection.GetSelected(out model, out iter)) {
+			personsListStore.SetValue (iter, 6, args.NewText);
+		}
+	}
+
+	void CellphonenumberCell_Edited (object o, EditedArgs args)
+	{
+		if (treeView.Selection.GetSelected(out model, out iter)) {
+			personsListStore.SetValue (iter, 7, args.NewText);
+		}
+
+	}
+	protected void OnAddActionActivated (object sender, EventArgs e, TreeViewColumn column)
+	{
+		//add empty row
+		personsListStore.AppendValues (null,null,null,null,null,null,null,null);
+
+		//fetch total numbers rows
+		int numberofrows = personsListStore.IterNChildren();
+
+		//treepath
+		treepath = new TreePath((numberofrows -1).ToString());	
+
+		//set cursor on new row
+		treeView.SetCursorOnCell (
+			treepath,
+			column,
+			null,
+			true
+		);
+
+	}
+
+		//	private bool FilterTree (TreeModel model, TreeIter iter)
+		//	{
+		//		//GetValue returns the value at column at the path pointed to by iter
+		//		//The iterator provided by the TreeIter class is used heavily in providing access to the data model. An iterator is a pointer into the data model using the data that can be read or written. In relational database terminology, the iterator is a cursor.
+		//		string id = model.GetValue (iter,1).ToString ();
+		//
+		//		if (filterEntry.Text == "")
+		//		return true;
+		//
+		//		if (id.IndexOf (filterEntry.Text) > -1)
+		//			return true;
+		//		else
+		//			return false;	
+		//	}
+		//
+		//	protected void OnFilterEntryChanged (object sender, EventArgs e)
+		//	{
+		//		filter.Refilter();
+		//	}
 }

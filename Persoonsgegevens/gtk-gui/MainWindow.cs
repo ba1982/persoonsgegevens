@@ -42,7 +42,6 @@ public partial class MainWindow
 		this.undeleteAction = new global::Gtk.Action ("undeleteAction", null, null, "gtk-undelete");
 		w1.Add (this.undeleteAction, null);
 		this.addAction = new global::Gtk.Action ("addAction", null, null, "gtk-add");
-		this.addAction.Sensitive = false;
 		w1.Add (this.addAction, null);
 		this.saveAction = new global::Gtk.Action ("saveAction", null, null, "gtk-save");
 		this.saveAction.Sensitive = false;
@@ -114,6 +113,5 @@ public partial class MainWindow
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 		this.openAction.Activated += new global::System.EventHandler (this.OnOpenActionActivated);
-		this.filterEntry.Changed += new global::System.EventHandler (this.OnFilterEntryChanged);
 	}
 }

@@ -1,9 +1,10 @@
 ﻿<Properties StartupItem="Persoonsgegevens/Persoonsgegevens.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Persoonsgegevens/gtk-gui/MainWindow.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Persoonsgegevens/MainWindow.cs">
     <Files>
-      <File FileName="Persoonsgegevens/Program.cs" Line="13" Column="7" />
-      <File FileName="Persoonsgegevens/gtk-gui/MainWindow.cs" Line="4" Column="22" />
+      <File FileName="Persoonsgegevens/Program.cs" Line="1" Column="1" />
+      <File FileName="Persoonsgegevens/MainWindow.cs" Line="205" Column="73" />
+      <File FileName="Persoonsgegevens/Person.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
