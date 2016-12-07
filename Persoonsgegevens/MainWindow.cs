@@ -4,6 +4,8 @@ using System.IO; //for FileStream, File classes
 using System.Linq; //let us try LINQ :-)
 using Persoonsgegevens;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Net.Mail;
 
 public partial class MainWindow: Gtk.Window
 {
@@ -140,6 +142,7 @@ public partial class MainWindow: Gtk.Window
 		emailCell.Editable = true;
 		cellphonenumberCell.Editable = true;
 
+		//add cell to column
 		idColumn.PackStart(idCell,true);
 		firstNameColumn.PackStart (firstNameCell, true);
 		lastNameColumn.PackStart (lastNameCell, true);
@@ -158,6 +161,7 @@ public partial class MainWindow: Gtk.Window
 		treeView.AppendColumn (emailColumn);
 		treeView.AppendColumn (cellphonenumberColumn);
 
+		//Tell the Cell Renderers which items in the model to display
 		idColumn.AddAttribute(idCell, "text",0);
 		firstNameColumn.AddAttribute (firstNameCell, "text", 1);
 		lastNameColumn.AddAttribute (lastNameCell, "text", 2);
@@ -201,12 +205,17 @@ public partial class MainWindow: Gtk.Window
 		//show all data
 		treeView.Model = personsListStore;
 
+		//assing TreeModel
+		model = treeView.Model;
+
 	
 		//fire event when clicked on 'add button' and pass also TreeViewColumn
 		addAction.Activated += new EventHandler((sender, eventargs)=>OnAddActionActivated(sender,eventargs,idColumn));
 
 		//set events when cells are edited
 		idCell.Edited += IdCell_Edited;
+
+		//idCell.Edited += new EventHandler((sender, editedargs)=>IdCell_Edited(sender, editedargs, 
 		firstNameCell.Edited += FirstNameCell_Edited;
 		lastNameCell.Edited += LastNameCell_Edited;
 		addressCell.Edited += AddressCell_Edited;
@@ -219,11 +228,26 @@ public partial class MainWindow: Gtk.Window
 
 	void IdCell_Edited (object o, EditedArgs args)
 	{
-		if (treeView.Selection.GetSelected(out model, out iter)) {
-			personsListStore.SetValue (iter, 0, args.NewText);
-		}
+		string value = args.NewText;
 
+		int parsedValue;
+
+		//check if NewText is a int
+		bool successfullyParsed = int.TryParse (value, out parsedValue);
+		if (!successfullyParsed) {
+			lblMessageBottom.Visible = true;
+			lblMessageBottom.Text = "ID moet een getal zijn!";
+		} else {			
+			if (model.GetIter (out iter, new TreePath (args.Path))) {
+				//write new value to liststore
+				personsListStore.SetValue (iter, 0, args.NewText);
+				lblMessageBottom.Visible = true;
+				lblMessageBottom.Text = "";
+				lblMessageBottom.Visible = false;
+			}
+		}
 	}
+
 
 	void FirstNameCell_Edited (object o, EditedArgs args)
 	{
@@ -248,11 +272,32 @@ public partial class MainWindow: Gtk.Window
 	}
 	void ZipcodeCell_Edited (object o, EditedArgs args)
 	{
-		if (treeView.Selection.GetSelected(out model, out iter)) {
-			personsListStore.SetValue (iter, 4, args.NewText);
-		}
+		string value = args.NewText;
 
+		int parsedValue;
+
+		//check if NewText is a int
+		bool successfullyParsed = int.TryParse (value, out parsedValue);
+		if (!successfullyParsed) {
+			lblMessageBottom.Visible = true;
+			lblMessageBottom.Text = "Postcode moet een getal zijn!";
+
+		} else {
+			if (Convert.ToInt32(args.NewText) >= 1000 && Convert.ToInt32(args.NewText) <= 9992) {
+				if (model.GetIter (out iter, new TreePath (args.Path))) {
+					//write new value to liststore
+					personsListStore.SetValue (iter, 4, args.NewText);
+					lblMessageBottom.Visible = true;
+					lblMessageBottom.Text = "";
+					lblMessageBottom.Visible = false;				
+				}
+			} else {
+				lblMessageBottom.Visible = true;
+				lblMessageBottom.Text = "Postcode tussen 1000 en 9992";
+			}
+		}
 	}
+
 	void CityCell_Edited (object o, EditedArgs args)
 	{
 		if (treeView.Selection.GetSelected(out model, out iter)) {
@@ -263,9 +308,22 @@ public partial class MainWindow: Gtk.Window
 
 	void EmailCell_Edited (object o, EditedArgs args)
 	{
-		if (treeView.Selection.GetSelected(out model, out iter)) {
-			personsListStore.SetValue (iter, 6, args.NewText);
+		string email = args.NewText;
+		bool validemailaddress =
+			Regex.IsMatch (email,
+				@"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))" +
+				@"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$",
+				RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds (250));
+
+		if (validemailaddress) {
+			if (treeView.Selection.GetSelected (out model, out iter)) {
+				personsListStore.SetValue (iter, 6, args.NewText);
+			}
+		} else {
+			lblMessageBottom.Visible = true;
+			lblMessageBottom.Text = "verkeerd formaat email adres";				
 		}
+
 	}
 
 	void CellphonenumberCell_Edited (object o, EditedArgs args)

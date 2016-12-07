@@ -28,6 +28,8 @@ public partial class MainWindow
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
 	
 	private global::Gtk.TreeView treeView;
+	
+	private global::Gtk.Label lblMessageBottom;
 
 	protected virtual void Build ()
 	{
@@ -104,12 +106,21 @@ public partial class MainWindow
 		this.vbox1.Add (this.GtkScrolledWindow);
 		global::Gtk.Box.BoxChild w7 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.GtkScrolledWindow]));
 		w7.Position = 2;
+		// Container child vbox1.Gtk.Box+BoxChild
+		this.lblMessageBottom = new global::Gtk.Label ();
+		this.lblMessageBottom.Name = "lblMessageBottom";
+		this.vbox1.Add (this.lblMessageBottom);
+		global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.vbox1 [this.lblMessageBottom]));
+		w8.Position = 3;
+		w8.Expand = false;
+		w8.Fill = false;
 		this.Add (this.vbox1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
 		this.DefaultWidth = 884;
 		this.DefaultHeight = 550;
+		this.lblMessageBottom.Hide ();
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
 		this.openAction.Activated += new global::System.EventHandler (this.OnOpenActionActivated);

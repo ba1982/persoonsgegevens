@@ -119,7 +119,16 @@
           </packing>
         </child>
         <child>
-          <placeholder />
+          <widget class="Gtk.Label" id="lblMessageBottom">
+            <property name="MemberName" />
+            <property name="Visible">False</property>
+          </widget>
+          <packing>
+            <property name="Position">3</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
         </child>
       </widget>
     </child>

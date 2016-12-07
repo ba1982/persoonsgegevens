@@ -2,13 +2,16 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Persoonsgegevens/MainWindow.cs">
     <Files>
-      <File FileName="Persoonsgegevens/Program.cs" Line="1" Column="1" />
-      <File FileName="Persoonsgegevens/MainWindow.cs" Line="205" Column="73" />
+      <File FileName="Persoonsgegevens/Program.cs" Line="8" Column="42" />
       <File FileName="Persoonsgegevens/Person.cs" Line="1" Column="1" />
+      <File FileName="Persoonsgegevens/MainWindow.cs" Line="326" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/bert/Mono/Persoonsgegevens/Persoonsgegevens/MainWindow.cs" line="327" column="63" />
+      <Breakpoint file="/home/bert/Mono/Persoonsgegevens/Persoonsgegevens/MainWindow.cs" line="327" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
